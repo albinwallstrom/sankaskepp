@@ -12,7 +12,7 @@ public class Main {
         try(ServerSocket serverSocket = new ServerSocket(555)){
             Socket socket = serverSocket.accept();
             System.out.println("Uppkopplad till klient");
-            System.out.println("Genererar din spelplan");
+            System.out.println("Genererar din spelplan..");
 
             String inMessage = "";
             String outMessage = "";
@@ -36,13 +36,12 @@ public class Main {
                 OutputStream output = socket.getOutputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                 PrintWriter writer = new PrintWriter(output, true);
-
                 inMessage = reader.readLine();
                 System.out.println("Klienten sköt på kordinat: " + inMessage);
+                System.out.println("Skjut ditt skott");
                 Scanner scanner = new Scanner(System.in);
                 outMessage = scanner.nextLine();
                 writer.println(outMessage);
-                System.out.println("Väntar på svar");
             }
         }
 

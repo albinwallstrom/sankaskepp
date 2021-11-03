@@ -12,7 +12,8 @@ public class Client {
             PrintWriter writer = new PrintWriter(output, true);
             InputStream input = socket.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-
+            System.out.println("Uppkopplad till server");
+            System.out.println("Genererar din spelplan..");
             String text = "";
 
             while(!text.equals("qq")){
@@ -29,14 +30,13 @@ public class Client {
                     }
                     System.out.println();
                 }
-
+                System.out.println("Skjut ditt skott");
                 Scanner scanner = new Scanner(System.in);
                 text = scanner.nextLine();
-
                 writer.println(text);
-
+                System.out.println("Servern skjuter..");
                 String inMessage = reader.readLine();
-                System.out.println(inMessage);
+                System.out.println("Server sköt på kordinat: " +inMessage);
             }
             socket.close();
             System.out.println("DEN STÄNGS AV");
