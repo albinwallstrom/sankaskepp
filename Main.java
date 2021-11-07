@@ -1,6 +1,8 @@
 package BattleshipCode;
 
+import java.util.Locale;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 //Är ej klar men såhär ser det ut hitintills. Lagt till så att man ser om det är en träff eller inte,
 // och en enklare skanner för att se så det funkar.
@@ -10,6 +12,7 @@ public class Main {
     static int row;
     static int col;
     static int undetectedPartsOfShips = 30;
+    static String alpha = "abcdefghij";
 
     public static void main(String[] args) {
         //Work in progress
@@ -32,37 +35,46 @@ public class Main {
             System.out.println();
         }
 
-        while (undetectedPartsOfShips > 0) {
-            int [] guessCoordinates = getUserCoordinates(gameBoardLength);
 
-            evaluateUserCoordinates(guessCoordinates, selectedBoard, hit, miss);
+        while (undetectedPartsOfShips > 0) {
+            int [] guessCoordinates = getCoordinates(gameBoardLength);
+
+            evaluateCoordinates(guessCoordinates, selectedBoard, hit, miss);
         }
 
     }
-    //få koordinaterna från användaren. Talet kan inte vara mindre än 0 eller större än 9
-    public static int[] getUserCoordinates(int gameBoardLength) {
-        do {
-            System.out.print("Rad: ");
-            row = new Scanner(System.in).nextInt();
-        } while (row < 0 || row > gameBoardLength);
-        do {
-            System.out.print("Kolumn: ");
-            col = new Scanner(System.in).nextInt();
-        } while (col < 0 || col > gameBoardLength);
+    //Får koordinaterna från användaren enligt Tomas protokoll. Strängarna kommer se ut tex: "i shot 6c" och sedan gör om dessa
+    // till koordinater i våran spelplan.
+    public static int[] getCoordinates(int gameBoardLength) {
+
+        System.out.println("Vi får in en sträng som ser ut:i shot 6c");
+        System.out.println("Det går bra att skriva in en sträng som är uppbyggd på samma sätt, bara nya koordinater: ");
+
+        String incomingShot = new Scanner(System.in).nextLine();
+        char temp = incomingShot.charAt(8);
+        int row = alpha.indexOf(temp);
+
+        Pattern pattern = Pattern.compile("[^0-9]");
+        String numbersOnly = pattern.matcher(incomingShot).replaceAll("");
+        int col = Integer.parseInt(numbersOnly);
+
         return new int[]{row, col};
     }
-    public static char evaluateUserCoordinates(int[] guessCoordinates, int[][] selectedBoard, char hit, char miss) {
+    public static char evaluateCoordinates(int[] guessCoordinates, int[][] selectedBoard, char hit, char miss) {
         String text;
-        int row = guessCoordinates[0];
-        int col = guessCoordinates[1];
-        char target = (char) selectedBoard[row][col];
+        int col = guessCoordinates[0];
+        int row = guessCoordinates[1];
+        char target = (char) selectedBoard[col][row];
+        char backToChar = alpha.charAt(guessCoordinates[0]);
+
         if (target > 0) {
-            text = "Träff!";
+            text = "h shot " + guessCoordinates[1]+ backToChar;
             target = hit;
             undetectedPartsOfShips--;
         } else if (target == 0) {
-            text = "Miss!";
+            text = "m shot " + guessCoordinates[1]+backToChar;
             target=miss;
+            // "s shot f5" -- sänkt + koordinaterna
         } else {
             text = "Du har redan skjutit där!";
         }
