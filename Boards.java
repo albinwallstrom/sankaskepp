@@ -1,6 +1,7 @@
 package BattleshipCode;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Boards {
 
@@ -93,4 +94,26 @@ public class Boards {
                                    {4,0,0,0,0,0,2,0,0,2,},
                                    {0,0,3,3,3,0,2,0,0,0,}};
 
+        public static void Battle(){
+                playerTurn();
+                Scanner scan = new Scanner(System.in);
+                System.out.println("Din tur");
+                String Shot = scan.nextLine();  // Read user input
+                System.out.println("Du sköt " + scan);
 }
+
+        private static void playerTurn() {
+                System.out.println("Shot on target");
+                int x = -1, y = -1;
+                do {
+                        Scanner input = new Scanner(System.in);
+                        System.out.print("Enter X coordinate: ");
+                        x = input.nextInt();
+                        System.out.print("Enter Y coordinate: ");
+                        y = input.nextInt();
+
+                        int numRows;
+                        int numCols;
+                        if ((x >= 0 && x < numRows) && (y >= 0 && y < numCols))
+        }
+        }
