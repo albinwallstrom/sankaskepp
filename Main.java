@@ -43,12 +43,10 @@ public class Main {
         }
 
     }
-    //Får koordinaterna från användaren enligt Tomas protokoll. Strängarna kommer se ut tex: "i shot 6c" och sedan gör om dessa
-    // till koordinater i våran spelplan.
+    //Get coordinates
     public static int[] getCoordinates(int gameBoardLength) {
 
         System.out.println("Vi får in en sträng som ser ut:i shot 6c");
-        System.out.println("Det går bra att skriva in en sträng som är uppbyggd på samma sätt, bara nya koordinater: ");
 
         String incomingShot = new Scanner(System.in).nextLine();
         char temp = incomingShot.charAt(8);
@@ -70,7 +68,7 @@ public class Main {
         if (target > 0) {
             text = "h shot " + guessCoordinates[1]+ backToChar;
             target = hit;
-            undetectedPartsOfShips--;
+            //undetectedPartsOfShips--;
         } else if (target == 0) {
             text = "m shot " + guessCoordinates[1]+backToChar;
             target=miss;
@@ -79,6 +77,6 @@ public class Main {
             text = "Du har redan skjutit där!";
         }
         System.out.println(text);
-        return target; //används ej än
+        return target;
     }
 }
