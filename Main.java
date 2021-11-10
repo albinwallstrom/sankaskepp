@@ -4,8 +4,6 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-//Är ej klar men såhär ser det ut hitintills. Lagt till så att man ser om det är en träff eller inte,
-// och en enklare skanner för att se så det funkar.
 
 public class Main {
     //Variabler
@@ -46,7 +44,7 @@ public class Main {
     //Get coordinates
     public static int[] getCoordinates(int gameBoardLength) {
 
-        System.out.println("Vi får in en sträng som ser ut:i shot 6c");
+        System.out.println("Tex:i shot 6c");
 
         String incomingShot = new Scanner(System.in).nextLine();
         char temp = incomingShot.charAt(8);
@@ -69,12 +67,13 @@ public class Main {
             text = "h shot " + guessCoordinates[1]+ backToChar;
             target = hit;
             //undetectedPartsOfShips--;
+            //if ship = 0, text "game over"
         } else if (target == 0) {
             text = "m shot " + guessCoordinates[1]+backToChar;
             target=miss;
             // "s shot f5" -- sänkt + koordinaterna
         } else {
-            text = "Du har redan skjutit där!";
+            text = "Du har redan skjutit där!"; // temporary 
         }
         System.out.println(text);
         return target;
