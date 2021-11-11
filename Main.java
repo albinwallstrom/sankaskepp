@@ -1,12 +1,16 @@
 package BattleshipCode;
 
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
 
         //Create an instance of the Boards class
         Boards board = new Boards();
+        board.placeShips();
 
+        /*
         //Stores the random chosen board in the 2D-array
         var selectedBoard = board.getRandomBoard();
 
@@ -16,7 +20,9 @@ public class Main {
                 System.out.print(selectedBoard[x][y] + " ");
             }
             System.out.println();
-        }
 
+
+        }
+        */
     }
 }

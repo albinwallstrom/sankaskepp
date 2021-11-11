@@ -1,14 +1,34 @@
 package BattleshipCode;
 
-import java.util.Random;
+import java.util.*;
 
 public class Boards {
 
         //Constructor
         public Boards(){}
 
+        //Creating the ships
+        Ships s1 = new Ships("Aircraft carrier", 5);
+        Ships s2 = new Ships("Battleship", 4);
+        Ships s3 = new Ships("Battleship", 4);
+        Ships s4 = new Ships("Cruiser", 3);
+        Ships s5 = new Ships("Cruiser", 3);
+        Ships s6 = new Ships("Cruiser", 3);
+        Ships s7 = new Ships("Submarine", 2);
+        Ships s8 = new Ships("Submarine", 2);
+        Ships s9 = new Ships("Submarine", 2);
+        Ships s10 = new Ships("Submarine", 2);
+
+        //Creating an Arraylist in which ships can be stored
+        public List<Ships> shipsList = new ArrayList<>();
+
+        public List<Ships> getShipsList() {
+                return shipsList;
+        }
+
         //Variables
         private static final Random random = new Random();
+        /*
         private static final int randomBoard = random.nextInt(5)+1;
 
         //Method for getting a random board
@@ -92,5 +112,62 @@ public class Boards {
                                    {4,0,0,0,5,0,0,0,0,2,},
                                    {4,0,0,0,0,0,2,0,0,2,},
                                    {0,0,3,3,3,0,2,0,0,0,}};
+*/
+        //2-D array, empty board
+        private int[][] board6 =  {{0,0,0,0,0,0,0,0,0,0,},
+                                   {0,0,0,0,0,0,0,0,0,0,},
+                                   {0,0,0,0,0,0,0,0,0,0,},
+                                   {0,0,0,0,0,0,0,0,0,0,},
+                                   {0,0,0,0,0,0,0,0,0,0,},
+                                   {0,0,0,0,0,0,0,0,0,0,},
+                                   {0,0,0,0,0,0,0,0,0,0,},
+                                   {0,0,0,0,0,0,0,0,0,0,},
+                                   {0,0,0,0,0,0,0,0,0,0,},
+                                   {0,0,0,0,0,0,0,0,0,0,}};
+
+        //**WORK IN PROGRESS** Test of placing one ship(the first in the list)
+        //                     at a random place, both horizontally and vertically
+        public void placeShips(){
+                shipsList.add(s1);
+                shipsList.add(s2);
+                shipsList.add(s3);
+                shipsList.add(s4);
+                shipsList.add(s5);
+                shipsList.add(s6);
+                shipsList.add(s7);
+                shipsList.add(s8);
+                shipsList.add(s9);
+                shipsList.add(s10);
+                while(!shipsList.isEmpty()){ //Always true for the moment, see line 169
+                     int horizontalVertical = random.nextInt(2)+1;
+                     int shipSize = getShipsList().get(0).getShipLength();
+                     int xPlacement;
+                     int yPlacement;
+                     int[][] boardWithShips = board6;
+                     if (horizontalVertical==1){
+                             xPlacement = random.nextInt(boardWithShips.length);
+                             yPlacement = random.nextInt(boardWithShips[0].length-shipSize+1);
+                             for (int i = 0; i<shipSize; i++)
+                                     boardWithShips[xPlacement][yPlacement+i]=shipSize;
+                             for (int x = 0; x < boardWithShips.length; x++) {
+                                     for (int y = 0; y < boardWithShips.length; y++) {
+                                             System.out.print(boardWithShips[x][y] + " ");
+                                     }
+                                     System.out.println();
+                             }
+                     }else {
+                             xPlacement = random.nextInt(boardWithShips.length-shipSize+1);
+                             yPlacement = random.nextInt(boardWithShips[0].length);
+                             for (int i = 0; i<shipSize; i++)
+                                     boardWithShips[xPlacement+i][yPlacement]=shipSize;
+                             for (int x = 0; x < boardWithShips.length; x++) {
+                                     for (int y = 0; y < boardWithShips.length; y++) {
+                                             System.out.print(boardWithShips[x][y] + " ");
+                                     }
+                                     System.out.println();
+                             }
+                     } break; //Temporarily break of the while-loop
+                }
+        }
 
 }
