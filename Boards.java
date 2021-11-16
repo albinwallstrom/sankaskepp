@@ -114,6 +114,7 @@ public class Boards {
 
                         int numRows;
                         int numCols;
-                        if ((x >= 0 && x < numRows) && (y >= 0 && y < numCols))
+                        if ((
+                                x >= 0 && x < numRows) && (y >= 0 && y < numCols))
         }
         }

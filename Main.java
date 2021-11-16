@@ -11,8 +11,8 @@ public class Main {
         var selectedBoard = board.getRandomBoard();
 
         //Loops through the selected 2D-array(board) and prints it out in the Terminal
-        for (int x = 0; x < selectedBoard.length; x++) {
-            for (int y = 0; y < selectedBoard.length; y++) {
+        While (int x = 0; x < selectedBoard.length; x++) {
+            While (int y = 0; y < selectedBoard.length; y++) {
                 System.out.print(selectedBoard[x][y] + " ");
             }
             System.out.println();
