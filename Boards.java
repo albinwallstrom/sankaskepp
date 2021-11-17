@@ -1,25 +1,24 @@
 package BattleshipCode;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.*;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class Boards {
+        //Variables
         private int[][] gameBoard;
         final private String alpha = "abcdefghij";
-        int totalShips = 10;
+        private int totalShips = 10;
+        private int water = 0;
+        private int gameBoardLength = 10;
+        private int hit = 11;
+        private int miss = 12;
+
         //Constructor
         public Boards() {
         }
 
         //Creating the ships
-
-        public void setS1(Ships s1) {
-                this.s1 = s1;
-        }
 
         Ships s1 = new Ships("Aircraft carrier", 5, 1, 5);
         Ships s2 = new Ships("Battleship", 4, 2, 4);
@@ -31,20 +30,6 @@ public class Boards {
         Ships s8 = new Ships("Submarine", 2, 8, 2);
         Ships s9 = new Ships("Submarine", 2, 9, 2);
         Ships s10 = new Ships("Submarine", 2, 10, 2);
-
-        /*Ships s1 = new Ships("Aircraft carrier", 5);*/
-       /* Ships s2 = new Ships("Battleship", 4);
-        Ships s3 = new Ships("Battleship", 4);
-        Ships s4 = new Ships("Cruiser", 3);
-        Ships s5 = new Ships("Cruiser", 3);
-        Ships s6 = new Ships("Cruiser", 3);
-        Ships s7 = new Ships("Submarine", 2);
-        Ships s8 = new Ships("Submarine", 2);
-        Ships s9 = new Ships("Submarine", 2);
-        Ships s10 = new Ships("Submarine", 2);
-*/
-
-
 
         //Creating an Arraylist in which ships can be stored
         public List<Ships> shipsList = new ArrayList<>();
@@ -65,81 +50,10 @@ public class Boards {
                         case 1:
                                 chosenBoard = board6;
                                 break;
-                        case 2:
-                                chosenBoard = board2;
-                                break;
-                        case 3:
-                                chosenBoard = board3;
-                                break;
-                        case 4:
-                                chosenBoard = board4;
-                                break;
-                        case 5:
-                                chosenBoard = board5;
-                                break;
                 }
                 return chosenBoard;
 
         }
-
-        //2-D arrays with five different ship placements
-        //Symbol meaning: 0=Water, 5=Aircraft Carrier, 4=Battleship, 3=Cruiser, 2=Submarine
-        //Length*Number of each ship: H=5*1, B=4*2, C=3*3, S=2*4 (All ships are 1 in Width)
-
-        private int[][] board1 = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 4,},
-                {0, 5, 5, 5, 5, 5, 0, 0, 0, 4,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 4,},
-                {0, 2, 0, 0, 0, 3, 3, 3, 0, 4,},
-                {0, 2, 0, 2, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 0, 2, 0, 0, 2, 2, 0, 0,},
-                {0, 2, 0, 0, 0, 0, 0, 0, 0, 4,},
-                {0, 2, 0, 0, 0, 3, 3, 3, 0, 4,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 4,},
-                {3, 3, 3, 0, 0, 0, 0, 0, 0, 4,}};
-
-        private int[][] board2 = {{0, 0, 0, 5, 0, 0, 0, 0, 4, 0,},
-                {0, 3, 0, 5, 0, 0, 0, 0, 4, 0,},
-                {0, 3, 0, 5, 0, 2, 2, 0, 4, 0,},
-                {0, 3, 0, 5, 0, 0, 0, 0, 4, 0,},
-                {0, 0, 0, 5, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 3, 3, 3,},
-                {0, 4, 0, 2, 2, 0, 0, 0, 0, 0,},
-                {0, 4, 0, 0, 0, 0, 0, 2, 0, 3,},
-                {0, 4, 0, 0, 2, 2, 0, 2, 0, 3,},
-                {0, 4, 0, 0, 0, 0, 0, 0, 0, 3,}};
-
-        private int[][] board3 = {{0, 3, 3, 3, 0, 0, 4, 4, 4, 4,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 4, 4, 4, 4, 0, 0, 0, 0, 5,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 5,},
-                {0, 2, 2, 0, 2, 0, 0, 0, 0, 5,},
-                {0, 0, 0, 0, 2, 0, 0, 0, 0, 5,},
-                {0, 0, 3, 0, 0, 0, 2, 2, 0, 5,},
-                {0, 0, 3, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 3, 0, 3, 3, 3, 0, 2, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 2, 0,}};
-
-        private int[][] board4 = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 3, 3, 3, 0, 0, 0, 3, 3, 3,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 2, 2, 0, 5, 0, 2, 2, 0, 0,},
-                {0, 0, 0, 0, 5, 0, 0, 0, 0, 0,},
-                {3, 3, 3, 0, 5, 0, 0, 0, 4, 0,},
-                {0, 0, 0, 0, 5, 0, 2, 0, 4, 0,},
-                {0, 2, 2, 0, 5, 0, 2, 0, 4, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 4, 0,},
-                {0, 0, 0, 4, 4, 4, 4, 0, 0, 0,}};
-
-        private int[][] board5 = {{0, 0, 0, 0, 0, 0, 0, 0, 4, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 4, 0,},
-                {3, 3, 3, 0, 0, 0, 2, 0, 4, 0,},
-                {0, 0, 0, 0, 5, 0, 2, 0, 4, 0,},
-                {0, 0, 3, 0, 5, 0, 0, 0, 0, 0,},
-                {4, 0, 3, 0, 5, 0, 0, 0, 0, 0,},
-                {4, 0, 3, 0, 5, 0, 2, 2, 0, 0,},
-                {4, 0, 0, 0, 5, 0, 0, 0, 0, 2,},
-                {4, 0, 0, 0, 0, 0, 2, 0, 0, 2,},
-                {0, 0, 3, 3, 3, 0, 2, 0, 0, 0,}};
         //2-D array, empty board
         private int[][] board6 = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
@@ -155,9 +69,6 @@ public class Boards {
         //**WORK IN PROGRESS** Test of placing one ship(the first in the list)
         //                     at a random place, both horizontally and vertically
         public int[][] placeShips() {
-
-                //test
-                Ships ships = new Ships();
 
                 shipsList.add(s1);
                 shipsList.add(s2);
@@ -207,8 +118,8 @@ public class Boards {
 
         }
 
-        public void printGameBoard(int[][] board6) {
-                getRandomBoard();
+        public void printGameBoard(int[][] gameBoard) {
+
                 //Loops through the selected 2D-array(board) and prints it out in the Terminal
                 for (int x = 0; x < getRandomBoard().length; x++) {
                         for (int y = 0; y < getRandomBoard().length; y++) {
@@ -218,24 +129,26 @@ public class Boards {
                 }
         }
 
+
+
         //Get coordinates method
         public int[] getCoordinates() {
                 //Takes the incoming string, takes the last letter and transforms it into a number.
                 String incomingShot = new Scanner(System.in).nextLine();
                 char temp = incomingShot.charAt(8);
-                int /*row*/ x = alpha.indexOf(temp);
+                int x = alpha.indexOf(temp);
 
                 //Removes everything but the number from the incoming string and the parse it into an Integer
                 Pattern pattern = Pattern.compile("[^0-9]");
                 String numbersOnly = pattern.matcher(incomingShot).replaceAll("");
-                int /*col*/ y = Integer.parseInt(numbersOnly);
+                int y = Integer.parseInt(numbersOnly);
 
                 //Returns the coordinates
-                return  new int[]{x,y};
+                return new int[]{x, y};
         }
 
         //Evaluates the coordinates if it is a hit, a miss, if a ship has been destroyed or if it is game over.
-        public int evaluateCoordinates(int[] guessCoordinates, int[][] selectedGameBoard, int hit, int miss) {
+        public int evaluateCoordinates(int[] guessCoordinates,int[][] selectedGameBoard) {
                 String text = "";
                 //locate the target of the shot in the 2d-Array
                 int y = guessCoordinates[0];
@@ -247,14 +160,10 @@ public class Boards {
                 if (target == 0 || target > 10) {
                         text = "m shot " + x + backToChar;
                         target = miss;
-                        //Check if it is a hit and locates witch ship that has been hit, and mark the ship as hit.
+                        //Check if it is a hit and locate in the shipsList  which ship that has been hit, and mark the ship as hit.
                 } else if (target > 0 || target < 11) {
-                        int i = target-1;
-                        System.out.println(getShipsList().get(i).getShipHealth());
-
+                        int i = target - 1;
                         getShipsList().get(i).hit();
-
-                        System.out.println(getShipsList().get(i).getShipHealth());
                         target = hit;
                         //Is the ship destroyed? removes one ship from the total of ships and returns the string for the opponent to read.
                         // Is all the ships destroyed? returns the message game over
@@ -263,13 +172,10 @@ public class Boards {
                         if (getShipsList().get(i).isDestroyed()) {
                                 text = "s shot " + x + backToChar;
                                 totalShips--;
-                                System.out.println(totalShips);
-                                if (totalShips==0)
+                                if (totalShips == 0)
                                         text = "game over";
                         } else
                                 text = "h shot " + x + backToChar;
-
-
                 }
 
                 System.out.println(text);
@@ -282,6 +188,6 @@ public class Boards {
                 int y = guessCoordinates[1];
                 gameBoard[x][y] = locationViewUpdate;
                 return gameBoard;
-        }
 
+        }
 }
