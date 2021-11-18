@@ -132,15 +132,15 @@ public class Boards {
 
 
         //Get coordinates method
-        public int[] getCoordinates() {
+        public int[] getCoordinates(String incomingMessage) {
                 //Takes the incoming string, takes the last letter and transforms it into a number.
-                String incomingShot = new Scanner(System.in).nextLine();
-                char temp = incomingShot.charAt(8);
+                /*String incomingShot = new Scanner(System.in).nextLine();*/
+                char temp = incomingMessage.charAt(8);
                 int x = alpha.indexOf(temp);
 
                 //Removes everything but the number from the incoming string and the parse it into an Integer
                 Pattern pattern = Pattern.compile("[^0-9]");
-                String numbersOnly = pattern.matcher(incomingShot).replaceAll("");
+                String numbersOnly = pattern.matcher(incomingMessage).replaceAll("");
                 int y = Integer.parseInt(numbersOnly);
 
                 //Returns the coordinates
@@ -178,8 +178,39 @@ public class Boards {
                                 text = "h shot " + x + backToChar;
                 }
 
-                System.out.println(text);
+                /*System.out.println(text);*/
                 return target;
+        }
+
+
+        public String sendText (int[] guessCoordinates,int[][] selectedGameBoard) {
+                String text = "";
+                //locate the target of the shot in the 2d-Array
+                int y = guessCoordinates[0];
+                int x = guessCoordinates[1];
+                int target = selectedGameBoard[y][x];
+                //Change the int back to a char.
+                char backToChar = alpha.charAt(y);
+                //Check if it is a miss, and returns a string if so
+                if (target == 0 || target > 10) {
+                        text = "m shot " + x + backToChar;
+                        //Check if it is a hit and locate in the shipsList  which ship that has been hit, and mark the ship as hit.
+                } else if (target > 0 || target < 11) {
+                        int i = target - 1;
+                        getShipsList().get(i).hit();
+                        //Is the ship destroyed? removes one ship from the total of ships and returns the string for the opponent to read.
+                        // Is all the ships destroyed? returns the message game over
+                        //If none of the above is correct, then it's just a hit
+                        //The "target" changes number so the ship cant be hit again.
+                        if (getShipsList().get(i).isDestroyed()) {
+                                text = "s shot " + x + backToChar;
+                                totalShips--;
+                                if (totalShips == 0)
+                                        text = "game over";
+                        } else
+                                text = "h shot " + x + backToChar;
+                }
+                return text;
         }
 
         //Updates the game board with the previous guess
@@ -190,4 +221,17 @@ public class Boards {
                 return gameBoard;
 
         }
+        public String randomShot() {
+                String alpha = "abcdefghij";
+
+                int x = random.nextInt(10);
+                int y = random.nextInt(10);
+
+                char letter = alpha.charAt(y);
+
+                System.out.println("i shot " + x+letter);
+
+                return "i shot " +x+letter;
+        }
+
 }
