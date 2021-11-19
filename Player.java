@@ -11,10 +11,8 @@ public class Player {
         //Create an instance of the Boards class
         Boards board = new Boards();
 
-        int [][] gameBoard = board.placeShips();
-
         //Stores the random chosen board in the 2D-array
-        int[][] selectedBoard = board.getRandomBoard();
+        /*int[][] selectedBoard = board.getRandomBoard();*/
         try {
             Socket socket = new Socket("localhost", 8888);
             OutputStream output = socket.getOutputStream();
@@ -26,10 +24,16 @@ public class Player {
             String text = "";
 
 
+
+
+
             while (!text.equals("qq")) {
 
-                /*String shot = board.randomShot();*/
-                String shot = new Scanner(System.in).nextLine();
+                int [][] gameBoard = board.placeShips();
+
+
+                String shot = board.randomShot();
+                /*String shot = new Scanner(System.in).nextLine();*/
 
                 writer.println(shot);
 
@@ -40,15 +44,15 @@ public class Player {
 
                 int [] guessCoordinates = board.getCoordinates(incomingMessage);
 
-                text = board.sendText(guessCoordinates, selectedBoard);
+                text = board.sendText(guessCoordinates, gameBoard);
 
                 writer.println(text);
 
                 System.out.println(text);
 
-                int locationViewUpdate = board.evaluateCoordinates(guessCoordinates, selectedBoard);
+                int locationViewUpdate = board.evaluateCoordinates(guessCoordinates, gameBoard);
 
-                gameBoard = board.updateGameBoard(selectedBoard, guessCoordinates, locationViewUpdate);
+                gameBoard = board.updateGameBoard(gameBoard, guessCoordinates, locationViewUpdate);
 
                 board.printGameBoard(gameBoard);
 

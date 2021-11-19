@@ -11,10 +11,10 @@ public class Main {
         //Create an instance of the Boards class
         Boards board = new Boards();
 
-        int [][] gameBoard = board.placeShips();
+        int [][] gameBoard;
 
         //Stores the random chosen board in the 2D-array
-        int[][] selectedBoard = board.getRandomBoard();
+        /*int[][] selectedBoard = board.getRandomBoard();*/
 
         try (ServerSocket serverSocket = new ServerSocket(8888)){
             Socket socket = serverSocket.accept();
@@ -27,31 +27,34 @@ public class Main {
 
             String text = "";
 
+
             while (true) {
 
+                gameBoard = board.placeShips();
 
 
                 String incomingMessage = reader.readLine();
 
                 int [] guessCoordinates = board.getCoordinates(incomingMessage);
 
-                text = board.sendText(guessCoordinates, selectedBoard);
+                text = board.sendText(guessCoordinates, gameBoard);
 
                 writer.println(text);
 
                 System.out.println(text);
 
-                int locationViewUpdate = board.evaluateCoordinates(guessCoordinates, selectedBoard);
+                int locationViewUpdate = board.evaluateCoordinates(guessCoordinates, gameBoard);
 
-                gameBoard = board.updateGameBoard(selectedBoard, guessCoordinates, locationViewUpdate);
+                gameBoard = board.updateGameBoard(gameBoard, guessCoordinates, locationViewUpdate);
 
                 board.printGameBoard(gameBoard);
 
-                Scanner scanner = new Scanner(System.in);
+               /* Scanner scanner = new Scanner(System.in);
 
                 String outMessage = scanner.nextLine();
-
-                writer.println(outMessage);
+*/
+                String shot = board.randomShot();
+                writer.println(shot);
 
                 String ignore = reader.readLine();
                 System.out.println(ignore);

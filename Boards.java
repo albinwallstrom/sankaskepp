@@ -80,41 +80,80 @@ public class Boards {
                 shipsList.add(s8);
                 shipsList.add(s9);
                 shipsList.add(s10);
-                while (!shipsList.isEmpty()) { //Always true for the moment, see line 169
+                while (true) {
                         int horizontalVertical = random.nextInt(2) + 1;
-                        int shipSize = getShipsList().get(0).getShipLength();
-                        int shipNumber = getShipsList().get(0).getShipNumber();
+                        /*int shipSize = getShipsList().get().getShipLength();
+                        int shipNumber = getShipsList().get(0).getShipNumber();*/
                         int xPlacement;
                         int yPlacement;
                         int[][] boardWithShips = board6;
-                        if (horizontalVertical == 1) {
-                                xPlacement = random.nextInt(boardWithShips.length);
-                                yPlacement = random.nextInt(boardWithShips[0].length - shipSize + 1);
+                        boolean isFree = true;
 
-                                for (int i = 0; i < shipSize; i++)
-                                        boardWithShips[xPlacement][yPlacement + i] = shipNumber;
-                                for (int x = 0; x < boardWithShips.length; x++) {
-                                        for (int y = 0; y < boardWithShips.length; y++) {
-                                                System.out.print(boardWithShips[x][y] + " ");
-                                        }
-                                        System.out.println();
-                                }
-                        } else {
-                                xPlacement = random.nextInt(boardWithShips.length - shipSize + 1);
-                                yPlacement = random.nextInt(boardWithShips[0].length);
+                        for (int j = 0; j <= shipsList.size(); j++) {
+                                int shipSize = getShipsList().get(j).getShipLength();
+                                int shipNumber = getShipsList().get(j).getShipNumber();
+                                if (horizontalVertical == 1) {
+                                        xPlacement = random.nextInt(gameBoardLength);
+                                        yPlacement = random.nextInt(gameBoardLength - shipSize + 1);
 
-                                for (int i = 0; i < shipSize; i++)
-                                        boardWithShips[xPlacement + i][yPlacement] = shipNumber;/*shipSize;*/
-                                for (int x = 0; x < boardWithShips.length; x++) {
-                                        for (int y = 0; y < boardWithShips.length; y++) {
-                                                System.out.print(boardWithShips[x][y] + " ");
+                                        // check for free space
+
+                                        for (int m = yPlacement; m < yPlacement + shipSize; m++) {
+                                                if (boardWithShips[m][xPlacement] != 0) {
+                                                        //System.out.println("Neighbors found, " + x + ", " + m);
+                                                        isFree = false;
+                                                        break;
+                                                }
                                         }
-                                        System.out.println();
+
+                                        if (!isFree) {
+                                                j--;
+                                                continue;
+                                        }
+
+                                        for (int m = Math.max(0, xPlacement - 1); m < Math.min(gameBoardLength, xPlacement + 2); m++) {
+                                                for (int n = Math.max(0, yPlacement - 1); n < Math.min(gameBoardLength, yPlacement + shipSize + 1); n++) {
+                                                        boardWithShips[n][m] = 13;
+                                                }
+                                        }
+                                        for (int p = 0; p < shipSize; p++) {
+                                                boardWithShips[yPlacement][xPlacement] = shipNumber;
+                                                yPlacement++;
+                                        }
+                                } else {
+                                        xPlacement = random.nextInt(gameBoardLength - shipSize + 1);
+                                        yPlacement = random.nextInt(gameBoardLength);
+
+                                        for (int n = xPlacement; n < xPlacement + shipSize; n++) {
+                                                if (boardWithShips[yPlacement][n] != 0) {
+                                                        //System.out.println("Neighbors found, " + n + ", " + y);
+                                                        isFree = false;
+                                                        break;
+                                                }
+                                        }
+
+                                        if (!isFree) {  // no free space found, retry
+                                                j--;
+                                                continue;
+                                        }
+
+                                        for (int m = Math.max(0, yPlacement - 1); m < Math.min(gameBoardLength, yPlacement + 2); m++) {
+                                                for (int n = Math.max(0, xPlacement - 1); n < Math.min(gameBoardLength, xPlacement + shipSize + 1); n++) {
+                                                        boardWithShips[m][n] = 13;
+                                                }
+                                        }
+                                        for (int a = 0; a < shipSize; a++) {
+                                                boardWithShips[yPlacement][xPlacement] = shipNumber;
+                                                xPlacement++;
+                                        }
+
                                 }
                         }
-                        break; //Temporarily break of the while-loop
+                        System.out.println("nej");
+                        gameBoard = boardWithShips;
+                        return gameBoard;
+
                 }
-                return gameBoard;
 
         }
 
@@ -123,7 +162,7 @@ public class Boards {
                 //Loops through the selected 2D-array(board) and prints it out in the Terminal
                 for (int x = 0; x < getRandomBoard().length; x++) {
                         for (int y = 0; y < getRandomBoard().length; y++) {
-                                System.out.print(board6[x][y] + "\t");
+                                System.out.print(gameBoard[x][y] + "\t");
                         }
                         System.out.println();
                 }
@@ -221,8 +260,9 @@ public class Boards {
                 return gameBoard;
 
         }
-        public String randomShot() {
-                String alpha = "abcdefghij";
+        public String randomShot() throws InterruptedException {
+                Thread.sleep(2000);
+
 
                 int x = random.nextInt(10);
                 int y = random.nextInt(10);
