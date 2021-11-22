@@ -14,7 +14,7 @@ public class Player {
         //Stores the random chosen board in the 2D-array
         /*int[][] selectedBoard = board.getRandomBoard();*/
         try {
-            Socket socket = new Socket("localhost", 8888);
+            Socket socket = new Socket("localhost", 8889);
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output,true);
 
@@ -23,17 +23,19 @@ public class Player {
 
             String text = "";
 
+            int[][] gameBoard;
 
 
+            gameBoard = board.placeShips();
 
+            board.printGameBoard(gameBoard);
 
             while (!text.equals("qq")) {
 
-                int [][] gameBoard = board.placeShips();
+
 
 
                 String shot = board.randomShot();
-                /*String shot = new Scanner(System.in).nextLine();*/
 
                 writer.println(shot);
 
@@ -56,9 +58,6 @@ public class Player {
 
                 board.printGameBoard(gameBoard);
 
-                /*Scanner scanner = new Scanner(System.in);*/
-/*
-                outMessage = scanner.nextLine();*/
             }
             socket.close();
 

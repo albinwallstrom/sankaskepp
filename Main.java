@@ -16,7 +16,7 @@ public class Main {
         //Stores the random chosen board in the 2D-array
         /*int[][] selectedBoard = board.getRandomBoard();*/
 
-        try (ServerSocket serverSocket = new ServerSocket(8888)){
+        try (ServerSocket serverSocket = new ServerSocket(8889)){
             Socket socket = serverSocket.accept();
             System.out.println("Spelare 1 har anslutit");
             System.out.println("Spelare 1 gör sig redo att förlora....");
@@ -27,10 +27,12 @@ public class Main {
 
             String text = "";
 
+            gameBoard = board.placeShips();
+
+
+            board.printGameBoard(gameBoard);
 
             while (true) {
-
-                gameBoard = board.placeShips();
 
 
                 String incomingMessage = reader.readLine();
@@ -49,17 +51,12 @@ public class Main {
 
                 board.printGameBoard(gameBoard);
 
-               /* Scanner scanner = new Scanner(System.in);
-
-                String outMessage = scanner.nextLine();
-*/
                 String shot = board.randomShot();
                 writer.println(shot);
 
                 String ignore = reader.readLine();
                 System.out.println(ignore);
 
-                /*System.out.println("Väntar på svar...");*/
             }
 
 
