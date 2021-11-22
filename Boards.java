@@ -13,6 +13,7 @@ public class Boards {
         private int[][] gameBoard = new int[gameBoardLength][gameBoardLength];
         private int hit = 11;
         private int miss = 12;
+        private static final Random random = new Random();
 
         //Constructor
         public Boards() {
@@ -38,36 +39,9 @@ public class Boards {
                 return shipsList;
         }
 
-        //Variables
-        private static final Random random = new Random();
 
-        /*private static final int randomBoard = random.nextInt(1) + 1;
 
-        //Method for getting a random board
-        public int[][] getRandomBoard() {
-                var chosenBoard = new int[10][10];
-                switch (randomBoard) {
-                        case 1:
-                                chosenBoard = board6;
-                                break;
-                }
-                return chosenBoard;
 
-        }
-        //2-D array, empty board
-        private int[][] board6 = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,}};*/
-
-        //**WORK IN PROGRESS** Test of placing one ship(the first in the list)
-        //                     at a random place, both horizontally and vertically
         public int[][] placeShips() {
 
                 shipsList.add(s1);
@@ -91,40 +65,40 @@ public class Boards {
                         int y = random.nextInt(gameBoardLength);
                         boolean vertical = random.nextBoolean();
 
-                        // correct start point so that the ship could fit in the field
+                        boolean possiblePlacement = true;
+
+                        // checks if it is possible to place the ship on that location without coming out of bounds. Otherwise,
+                        // changes the start int so that the ship could fit in the field. Then it looks if it is possible to place
+                        // ship ont that coordinate.
                         if (vertical) {
                                 if (y + shipSize > gameBoardLength) {
                                         y -= shipSize;
                                 }
-                        } else if (x + shipSize >gameBoardLength) {
-                                x -= shipSize;
-                        }
-                        //System.out.println("Start point: " + x + ", " + y + "; dir: " + (vertical ? "VERTICAL" : "HORIZONTAL"));
-                        boolean possiblePlacement = true;
-                        // check for free space
-                        if (vertical) {
                                 for (int m = y; m < y + shipSize; m++) {
                                         if (gameBoard[m][x] != 0) {
-                                                //System.out.println("Neighbors found, " + x + ", " + m);
                                                 possiblePlacement = false;
                                                 break;
                                         }
                                 }
                         } else {
+                                if (x + shipSize >gameBoardLength) {
+                                        x -= shipSize;
+                                }
                                 for (int n = x; n < x + shipSize; n++) {
                                         if (gameBoard[y][n] != 0) {
-                                                //System.out.println("Neighbors found, " + n + ", " + y);
                                                 possiblePlacement = false;
                                                 break;
                                         }
                                 }
                         }
-                        if (!possiblePlacement) {  // no free space found, retry
+                        //If you are not able to place ship, then start over.
+                        if (!possiblePlacement) {
                                 i--;
                                 continue;
                         }
 
-                        // fill in the adjacent cells
+                        // Mark the adjacent squares, so you can't put a ship next to another. If the neighbour is out of bounds,
+                        // then use the 0 as min or 9 as max.
                         if (vertical) {
                                 for (int m = Math.max(0, x - 1); m < Math.min(gameBoardLength, x + 2); m++) {
                                         for (int n = Math.max(0, y - 1); n < Math.min(gameBoardLength, y + shipSize + 1); n++) {
@@ -138,7 +112,7 @@ public class Boards {
                                         }
                                 }
                         }
-                        // fill in the ship cells
+                        // place the ships on the board
                         for (int j = 0; j < shipSize; j++) {
                                 gameBoard[y][x] = shiNumber;
                                 if (vertical) {
@@ -148,8 +122,10 @@ public class Boards {
                                 }
                         }
                 }
+
                 return gameBoard;
         }
+
 
         public void printGameBoard(int[][] gameBoard) {
 
@@ -161,7 +137,6 @@ public class Boards {
                         System.out.println();
                 }
         }
-
 
 
         //Get coordinates method
@@ -196,14 +171,14 @@ public class Boards {
                         target = hit;
                         //Is the ship destroyed? Removes one ship from the total of ships.
                         //The "target" changes number so the ship can't be hit again.
-                        if (getShipsList().get(i).isDestroyed())
-                                totalShips--;
+                        /*if (getShipsList().get(i).isDestroyed())
+                                totalShips--;*/
                 }
                 return target;
         }
 
 
-        public String sendText (int[] guessCoordinates, int [][] gameBoard) {
+        public String returnText (int[] guessCoordinates, int [][] gameBoard) {
                 String text = "";
                 //locate the target of the shot in the 2d-Array
                 int y = guessCoordinates[0];
@@ -221,6 +196,7 @@ public class Boards {
                         // Is all the ships destroyed? returns the message game over
                         //If none of the above is correct, then it's just a hit
                         if (getShipsList().get(i).isDestroyed()) {
+                                totalShips--;
                                 text = "s shot " + x + backToChar;
                                 if (totalShips == 0)
                                         text = "game over";

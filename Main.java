@@ -39,13 +39,15 @@ public class Main {
 
                 int [] guessCoordinates = board.getCoordinates(incomingMessage);
 
-                text = board.sendText(guessCoordinates, gameBoard);
+
+                int locationViewUpdate = board.evaluateCoordinates(guessCoordinates, gameBoard);
+
+
+                text = board.returnText(guessCoordinates, gameBoard);
 
                 writer.println(text);
 
                 System.out.println(text);
-
-                int locationViewUpdate = board.evaluateCoordinates(guessCoordinates, gameBoard);
 
                 gameBoard = board.updateGameBoard(gameBoard, guessCoordinates, locationViewUpdate);
 
