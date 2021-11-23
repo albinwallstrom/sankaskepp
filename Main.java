@@ -20,7 +20,6 @@ public class Main {
             PrintWriter writer = new PrintWriter(output, true);
             String text = "";
             int[][]gameBoard = board.placeShips();
-            board.printGameBoard(gameBoard);
 
             while (true) {
 
