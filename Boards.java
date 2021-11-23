@@ -1,5 +1,6 @@
 package BattleshipCode;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -94,27 +95,79 @@ public class Boards {
                                    {4,0,0,0,0,0,2,0,0,2,},
                                    {0,0,3,3,3,0,2,0,0,0,}};
 
-        public static void Battle(){
-                playerTurn();
-                Scanner scan = new Scanner(System.in);
-                System.out.println("Din tur");
-                String Shot = scan.nextLine();  // Read user input
-                System.out.println("Du sköt " + scan);
-}
+                public static class arr1 {
 
-        private static void playerTurn() {
-                System.out.println("Shot on target");
-                int x = -1, y = -1;
-                do {
-                        Scanner input = new Scanner(System.in);
-                        System.out.print("Enter X coordinate: ");
-                        x = input.nextInt();
-                        System.out.print("Enter Y coordinate: ");
-                        y = input.nextInt();
+                        public static void main(String[] args) {
+                                //fields
+                                char[][] board = new char[5][5]; // Spelbrädet.
+                                ArrayList<arr1> arr = new arr1<>(); // array list för att hålla koll på objekten
+                                initialBoard(board);
+                                Random computer = new Random(); //skapar ett random numner för datorn.
+                                int row, col;
+                                Scanner user = new Scanner(System.in);
 
-                        int numRows;
-                        int numCols;
-                        if ((
-                                x >= 0 && x < numRows) && (y >= 0 && y < numCols))
-        }
-        }
+
+                                for (int i = 0; i <= 4; i++) {
+                                        row = computer.nextInt(5);
+                                        col = computer.nextInt(5);
+                                        arr1 battleship = new arr1(row, col);
+                                }
+                                System.out.println(arr1);
+                                int turnsLeft = 8;
+                                int numShips = 4;
+                                do {
+                                        System.out.println("You have " + turnsLeft + " turns left." + "\n"
+                                                + "There are " + numShips + " ships left.");
+                                        System.out.println("Please make a guess (row, column)");
+
+                                        row = user.nextInt();
+                                        col = user.nextInt();
+                                        arr1 userGuess = new arr1(row, col);
+
+                                        if (row > 4 || col > 4) {
+                                                System.out.println("Your move is invalid.");
+                                        } else if (board[row][col] == 'X' || board[row][col] == '*') {
+                                                System.out.println("You have already guessed that location");
+                                        }
+                                        for (arr1 loc : arr1) {
+                                                if (arr1.contains(userGuess)) {
+                                                        arr1.remove(userGuess);
+                                                        board[row][col] = '*';
+                                                        updateBoard(board);
+                                                        System.out.println("You hit a ship");
+                                                        break;
+                                                } else {
+                                                        board[row][col] = 'X';
+                                                        updateBoard(board);
+                                                        break;
+                                                }
+                                        }
+                                } while (turnsLeft != 0);
+                        }
+
+                        private static void remove(arr1 userGuess) {
+                        }
+
+                        private static boolean contains(arr1 userGuess) {
+                        }
+
+                        //printBoard method
+                        public static void initialBoard(char[][] board) {
+                                //for loops iterate through each 
+                                for (int row = 0; row < board.length; row++) {
+                                        for (int col = 0; col < board[row].length; col++) {
+                                                board[row][col] = 'O';
+                                                System.out.print(board[row][col] + " ");
+                                        }
+                                        System.out.println();
+                                }
+                        }
+
+                        public static void updateBoard(char[][] board) {
+                                for (int row = 0; row < board.length; row++) {
+                                        for (int col = 0; col < board[row].length; col++) {
+                                                System.out.print(board[row][col] + " ");
+                                        }
+                                }
+                        }
+                }
