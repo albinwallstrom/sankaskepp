@@ -8,11 +8,7 @@ public class Boards {
         //Variables
         final private String alpha = "abcdefghij";
         private int totalShips = 10;
-        private final int water = 0;
-        private int gameBoardLength = 10;
-        private int[][] gameBoard = new int[gameBoardLength][gameBoardLength];
-        private int hit = 11;
-        private int miss = 12;
+        private final int gameBoardLength = 10;
         private static final Random random = new Random();
 
         //Constructor
@@ -114,7 +110,10 @@ public class Boards {
                                 }
                         }
                 }
-
+                for(int j = 0; j < gameBoardLength; j++)
+                        for (int k = 0; k < gameBoardLength; k++)
+                                if (gameBoard[j][k] == 13)
+                                        gameBoard[j][k] = 0;
                 return gameBoard;
         }
 
@@ -160,15 +159,16 @@ public class Boards {
                 int target = gameBoard[y][x];
                 //Check if it is a miss and marks it on the board
                 if (target == 0 || target > 10) {
+                        int miss = 12;
                         target = miss;
                         //Check if it is a hit and locate in the shipsList  which ship that has been hit, and mark the ship as hit.
                 } else if (target > 0 || target < 11) {
                         int i = target - 1;
                         getShipsList().get(i).hit();
+                        int hit = 11;
                         target = hit;
                         //Is the ship destroyed? Removes one ship from the total of ships.
                         //The "target" changes number so the ship can't be hit again.
-
                 }
                 return target;
         }
