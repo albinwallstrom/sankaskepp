@@ -3,7 +3,6 @@ package BattleshipCode;
 public class Ships {
     private String type;
     private int length;
-    //new variable
     private int shipNumber;
     private int shipHealth;
 
@@ -16,20 +15,6 @@ public class Ships {
 
     public int getShipNumber() {
         return shipNumber;
-    }
-
-    public int getShipHealth() {
-        return shipHealth;
-    }
-
-    //Currently not in use
-    public String getType() {
-        return type;
-    }
-
-    //Currently not in use
-    public void setType(String type) {
-        this.type = type;
     }
 
     public int getShipLength() {

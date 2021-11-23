@@ -20,7 +20,6 @@ public class Boards {
         }
 
         //Creating the ships
-
         Ships s1 = new Ships("Aircraft carrier", 5, 1, 5);
         Ships s2 = new Ships("Battleship", 4, 2, 4);
         Ships s3 = new Ships("Battleship", 4, 3, 4);
@@ -39,11 +38,7 @@ public class Boards {
                 return shipsList;
         }
 
-
-
-
         public int[][] placeShips() {
-
                 shipsList.add(s1);
                 shipsList.add(s2);
                 shipsList.add(s3);
@@ -54,22 +49,18 @@ public class Boards {
                 shipsList.add(s8);
                 shipsList.add(s9);
                 shipsList.add(s10);
-
                 int[][] gameBoard = new int[gameBoardLength][gameBoardLength];
                 for (int i = 0; i < shipsList.size(); i++) {
                         int shipSize = getShipsList().get(i).getShipLength();
                         int shiNumber = getShipsList().get(i).getShipNumber();
-                        //System.out.println("Placing ship with length: " + i);
                         // start point of the ship and direction
                         int x = random.nextInt(gameBoardLength);
                         int y = random.nextInt(gameBoardLength);
                         boolean vertical = random.nextBoolean();
-
                         boolean possiblePlacement = true;
-
                         // checks if it is possible to place the ship on that location without coming out of bounds. Otherwise,
                         // changes the start int so that the ship could fit in the field. Then it looks if it is possible to place
-                        // ship ont that coordinate.
+                        // ship on that coordinate.
                         if (vertical) {
                                 if (y + shipSize > gameBoardLength) {
                                         y -= shipSize;
@@ -102,6 +93,7 @@ public class Boards {
                         if (vertical) {
                                 for (int m = Math.max(0, x - 1); m < Math.min(gameBoardLength, x + 2); m++) {
                                         for (int n = Math.max(0, y - 1); n < Math.min(gameBoardLength, y + shipSize + 1); n++) {
+                                                int p = 0;
                                                 gameBoard[n][m] = 13;
                                         }
                                 }
@@ -126,31 +118,36 @@ public class Boards {
                 return gameBoard;
         }
 
-
         public void printGameBoard(int[][] gameBoard) {
 
                 //Loops through the selected 2D-array(board) and prints it out in the Terminal
+                int[] colArray = {0,1,2,3,4,5,6,7,8,9};
+                char[] rowArray = {'A','B','C','D','E','F','G','H','I','J','K'};
+                int i = 0;
+                System.out.print(" \t");
+                for(int c : colArray)
+                        System.out.print(c + "\t");
+                System.out.println();
                 for (int x = 0; x < gameBoardLength; x++) {
+                        System.out.print(rowArray[i] + "\t");
+                        i++;
                         for (int y = 0; y < gameBoardLength; y++) {
                                 System.out.print(gameBoard[x][y] + "\t");
                         }
                         System.out.println();
                 }
-        }
 
+        }
 
         //Get coordinates method
         public int[] getCoordinates(String incomingMessage) {
                 //Takes the incoming string, takes the last letter and transforms it into a number.
-                /*String incomingShot = new Scanner(System.in).nextLine();*/
                 char temp = incomingMessage.charAt(8);
                 int x = alpha.indexOf(temp);
-
                 //Removes everything but the number from the incoming string and the parse it into an Integer
                 Pattern pattern = Pattern.compile("[^0-9]");
                 String numbersOnly = pattern.matcher(incomingMessage).replaceAll("");
                 int y = Integer.parseInt(numbersOnly);
-
                 //Returns the coordinates
                 return new int[]{x, y};
         }
@@ -171,12 +168,10 @@ public class Boards {
                         target = hit;
                         //Is the ship destroyed? Removes one ship from the total of ships.
                         //The "target" changes number so the ship can't be hit again.
-                        /*if (getShipsList().get(i).isDestroyed())
-                                totalShips--;*/
+
                 }
                 return target;
         }
-
 
         public String returnText (int[] guessCoordinates, int [][] gameBoard) {
                 String text = "";
@@ -212,20 +207,14 @@ public class Boards {
                 int y = guessCoordinates[1];
                 gameBoard[x][y] = locationViewUpdate;
                 return gameBoard;
-
         }
+
         public String randomShot() throws InterruptedException {
                 Thread.sleep(2000);
-
-
                 int x = random.nextInt(10);
                 int y = random.nextInt(10);
-
                 char letter = alpha.charAt(y);
-
                 System.out.println("i shot " + x+letter);
-
                 return "i shot " +x+letter;
         }
-
 }
