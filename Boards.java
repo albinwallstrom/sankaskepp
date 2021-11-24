@@ -123,6 +123,7 @@ public class Boards {
                 int[] colArray = {0,1,2,3,4,5,6,7,8,9};
                 char[] rowArray = {'A','B','C','D','E','F','G','H','I','J','K'};
                 int i = 0;
+                System.out.println();
                 System.out.print(" \t");
                 for(int c : colArray)
                         System.out.print(c + "\t");
@@ -214,7 +215,7 @@ public class Boards {
                 int x = random.nextInt(10);
                 int y = random.nextInt(10);
                 char letter = alpha.charAt(y);
-                System.out.println("i shot " + x+letter);
+
                 return "i shot " +x+letter;
         }
 }
